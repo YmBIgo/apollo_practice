@@ -1,0 +1,26 @@
+{
+  "name": "apollo-server-practice",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "ts-node": ".\\node_modules\\.bin\\ts-node",
+    "start": "NODE_ENV=development nodemon --config ./nodemon.json",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "kazuya kurihara",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/uuid": "^8.3.4",
+    "nodemon": "^2.0.15",
+    "ts-loader": "^9.2.8",
+    "ts-node": "^10.7.0",
+    "typescript": "^4.6.2"
+  },
+  "dependencies": {
+    "apollo-server": "^3.6.4",
+    "graphql": "^14.5.8",
+    "graphql-tools": "^4.0.8",
+    "uuid": "^8.3.2"
+  }
+}

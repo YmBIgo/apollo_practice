@@ -1,24 +1,55 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {useQuery, useMutation} from "@apollo/react-hooks"
+import {gql} from "@apollo/client"
+import AddTodo from "./components/AddTodo"
+import TodoList from "./components/TodoList"
+import Footer from "./components/Footer"
 
-function App() {
+export const ALL_TODOS = gql`
+  query {
+    allTodos {
+      id
+      text
+      completed
+    }
+  }
+`
+
+const ADD_TODO = gql`
+  mutation addTodo($text: String!) {
+    addTodo(text: $text) {
+      id
+      text
+      completed
+    }
+  }
+`
+
+const SET_FILTER = gql`
+  mutation setFilter($filter: FILTER!) {
+    setFilter(filter: $filter)
+  }
+`
+
+const App: React.FC = () => {
+
+  const {loading, error, data} = useQuery(ALL_TODOS)
+
+  const [addTodo] = useMutation(ADD_TODO, {
+    refetchQueries: [{query: ALL_TODOS}]
+  })
+
+  const [toggleCompleted] = useMutation(SET_FILTER, {
+    refetchQueries: [{query: ALL_TODOS}]
+  })
+
+  if (error) return <p>{error.message}</p>
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AddTodo addTodo={addTodo} />
+      <TodoList {...{loading, data}} />
+      <Footer toggleCompleted={toggleCompleted} />
     </div>
   );
 }
